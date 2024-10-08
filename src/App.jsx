@@ -1,26 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Dice from "./components/dice";
 
 function App() {
-  const [die, setDie] = useState(0);
+  const [dice, setDice] = useState(allNewDice());
+  const [pick, setPick] = useState(null);
+  const [gameSatutus, setGameStatus] = useState(false);
 
-  const dice = [1, 2, 3, 4, 5, 6, 1, 2, 3, 4];
+  function allNewDice() {
+    return Array.from({ length: 10 }, () => Math.floor(Math.random() * 6) + 1);
+  }
 
-  const diceElements = dice.map((die, index) => {
-    return  (
-      <Dice
-        key={index}
-        value={die}
-        onClick={() => {
-          setCount(count + 1);
-        }}
-      />
-    )
-  })
+  const diceElement = dice.map((die, index) => {
+    return (
+      <Dice key={index} value={die} pick={pick} onClick={() => setPick(die)} />
+    );
+  });
+  console.log(pick);
 
   function handleRoll() {
-    console.log('Rolling');
+    setDice(
+      dice.map((die) =>
+        die === pick ? die : Math.floor(Math.random() * 6) + 1
+      )
+    );
   }
+  
+  useEffect(() => {
+    const allEqual = (arr) => arr.every((v) => v === arr[0]);
+    if (allEqual(dice)) {
+      alert("You win!");
+    }
+  });
 
   return (
     <div className="bg-blue-950 h-screen p-12">
@@ -34,13 +44,16 @@ function App() {
             current value between rolls.
           </p>
         </div>
-        <div className="w-2/3 mx-auto flex justify-center">
+        <div className="md:w-2/3 mx-auto flex justify-center">
           <div className="grid grid-rows-2 grid-cols-5 gap-8 text-center py-12">
-            {diceElements}
+            {diceElement}
           </div>
         </div>
         <div className="flex justify-center">
-          <button className="bg-indigo-600 text-white px-12 py-4 rounded-lg font-bold text-2xl shadow-md" onClick={handleRoll}>
+          <button
+            className="bg-indigo-600 text-white px-12 py-4 rounded-lg font-bold text-2xl shadow-md"
+            onClick={handleRoll}
+          >
             Roll
           </button>
         </div>
