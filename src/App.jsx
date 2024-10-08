@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Dice from "./components/dice";
+import { motion } from "framer-motion";
 
 function App() {
   const [dice, setDice] = useState(allNewDice());
@@ -9,11 +10,22 @@ function App() {
     return Array.from({ length: 10 }, () => Math.floor(Math.random() * 6) + 1);
   }
 
+  function randomDelay() {
+    return Math.random() * 10;
+  }
+
   const diceElement = dice.map((die, index) => {
     return (
-      <Dice key={index} value={die} pick={pick} onClick={() => setPick(die)} />
+      <Dice
+        key={index}
+        value={die}
+        pick={pick}
+        onClick={() => setPick(die)}
+        delay={randomDelay()}
+      />
     );
   });
+
   console.log(pick);
 
   function handleRoll() {
@@ -23,7 +35,7 @@ function App() {
       )
     );
   }
-  
+
   useEffect(() => {
     const allEqual = (arr) => arr.every((v) => v === arr[0]);
     if (allEqual(dice)) {
@@ -49,12 +61,14 @@ function App() {
           </div>
         </div>
         <div className="flex justify-center">
-          <button
-            className="bg-indigo-600 text-white px-12 py-4 rounded-lg font-bold text-2xl shadow-md"
+          <motion.div
+            whileTap={{ scale: 0.9 }}
+            transition={{ type: "spring", stiffness: 400, damping: 10 }}
+            className="bg-indigo-600 text-white px-12 py-4 rounded-lg font-bold text-2xl shadow-md cursor-pointer"
             onClick={handleRoll}
           >
             Roll
-          </button>
+          </motion.div>
         </div>
       </div>
     </div>
