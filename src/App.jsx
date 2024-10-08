@@ -4,7 +4,6 @@ import Dice from "./components/dice";
 function App() {
   const [dice, setDice] = useState(allNewDice());
   const [pick, setPick] = useState(null);
-  const [gameSatutus, setGameStatus] = useState(false);
 
   function allNewDice() {
     return Array.from({ length: 10 }, () => Math.floor(Math.random() * 6) + 1);
