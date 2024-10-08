@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Dice from "./components/Dice";
+import Dice from "./components/dice";
 
 function App() {
   const [dice, setDice] = useState(allNewDice());
