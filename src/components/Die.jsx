@@ -1,4 +1,11 @@
-export default function Dice(props) {
+import { useEffect } from "react";
+
+export default function Die(props) {
+
+  useEffect(() => {
+    console.log('Dice rendered '+ props.value);
+  })
+
   return (
     <div
       className={

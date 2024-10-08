@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
-import Dice from "./components/dice";
+import Die from "./components/Die";
 import { motion } from "framer-motion";
+
 
 function App() {
   const [dice, setDice] = useState(allNewDice());
   const [pick, setPick] = useState(null);
+  const [tenzies, setTenzies] = useState(false);
 
   function allNewDice() {
     return Array.from({ length: 10 }, () => Math.floor(Math.random() * 6) + 1);
@@ -16,7 +18,7 @@ function App() {
 
   const diceElement = dice.map((die, index) => {
     return (
-      <Dice
+      <Die
         key={index}
         value={die}
         pick={pick}
@@ -25,8 +27,6 @@ function App() {
       />
     );
   });
-
-  console.log(pick);
 
   function handleRoll() {
     setDice(
@@ -39,9 +39,11 @@ function App() {
   useEffect(() => {
     const allEqual = (arr) => arr.every((v) => v === arr[0]);
     if (allEqual(dice)) {
-      alert("You win!");
+      setTenzies(true);
     }
-  });
+  }, [dice]);
+
+
 
   return (
     <div className="bg-blue-950 h-screen p-12">
@@ -70,6 +72,9 @@ function App() {
             Roll
           </motion.div>
         </div>
+      </div>
+      <div className="h-12">
+xddd
       </div>
     </div>
   );
