@@ -74,7 +74,6 @@ function App() {
         </div>
       </div>
       <div className="h-12">
-xddd
       </div>
     </div>
   );
