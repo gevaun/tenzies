@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Die from "./components/Die";
 import { motion } from "framer-motion";
 
+import Confetti from "react-confetti";
 
 function App() {
   const [dice, setDice] = useState(allNewDice());
@@ -29,11 +30,17 @@ function App() {
   });
 
   function handleRoll() {
-    setDice(
-      dice.map((die) =>
-        die === pick ? die : Math.floor(Math.random() * 6) + 1
-      )
-    );
+    if (tenzies) {
+      setDice(allNewDice());
+      setTenzies(false);
+      return;
+    } else {
+      setDice(
+        dice.map((die) =>
+          die === pick ? die : Math.floor(Math.random() * 6) + 1
+        )
+      );
+    }
   }
 
   useEffect(() => {
@@ -43,7 +50,7 @@ function App() {
     }
   }, [dice]);
 
-
+  const { innerWidth: width, innerHeight: height } = window;
 
   return (
     <div className="bg-blue-950 h-screen p-12">
@@ -69,12 +76,12 @@ function App() {
             className="bg-indigo-600 text-white px-12 py-4 rounded-lg font-bold text-2xl shadow-md cursor-pointer"
             onClick={handleRoll}
           >
-            Roll
+            {tenzies ? "New Game" : "Roll"}
           </motion.div>
         </div>
       </div>
-      <div className="h-12">
-      </div>
+      {tenzies && <Confetti width={width} height={height} />}
+      <div className="h-12"></div>
     </div>
   );
 }
